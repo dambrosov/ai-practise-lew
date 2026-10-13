@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "fetch"
+  ],
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "WebSearch",
+      "WebFetch",
+      "Agent",
+      "Skill",
+      "AskUserQuestion",
+      "mcp__fetch__fetch",
+      "Edit(runs/**)",
+      "Bash(node .claude/skills/workflow-state/scripts/state.js:*)",
+      "Bash(node .claude/skills/workflow-state/scripts/state.js *)",
+      "Bash(node .claude/hooks/selftest.js:*)",
+      "Bash(node .claude/hooks/selftest.js *)",
+      "Bash(ls:*)",
+      "Bash(ls *)",
+      "Bash(rm runs/*/STOP)",
+      "Bash(touch runs/*/STOP)"
+    ],
+    "deny": [],
+    "ask": [
+      "Edit(.claude/**)",
+      "Edit(.mcp.json)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Agent|Write|Edit|MultiEdit|NotebookEdit|Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/pre-tool-gate.js",
+            "timeout": 20
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Agent|Write|Edit|MultiEdit|AskUserQuestion|WebSearch|WebFetch|mcp__fetch__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/post-tool-log.js",
+            "timeout": 20
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/prompt-capture.js",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

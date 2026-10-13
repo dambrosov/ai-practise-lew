@@ -1,0 +1,263 @@
+{
+  "run_id": "run-03-spanish-a2-to-b1-conversation",
+  "status": "completed",
+  "title": "Spanish A2 to B1 conversation in 10 weeks",
+  "mode": "free-only",
+  "input_hash": "867a6298633f39917dadd1e9af3ac0dbf0381ea7afe09a173f0ae63a0c08f0ed",
+  "created_at": "2026-10-02T10:15:26.750Z",
+  "updated_at": "2026-10-02T10:43:05.741Z",
+  "selected": [
+    "requirements-formalizer",
+    "knowledge-assessor",
+    "resource-researcher",
+    "practice-designer",
+    "schedule-planner",
+    "validator",
+    "path-synthesizer",
+    "html-builder"
+  ],
+  "subgraph": {
+    "requirements-formalizer": {
+      "artifact": "artifacts/01-requirements.md",
+      "depends_on": [],
+      "role": "planner",
+      "requires": null,
+      "summary": "Turns the confirmed user input into a normalized requirements document (goal, baseline, constraints, success criteria)."
+    },
+    "knowledge-assessor": {
+      "artifact": "artifacts/02-assessment.md",
+      "depends_on": [
+        "requirements-formalizer"
+      ],
+      "role": "planner",
+      "requires": null,
+      "summary": "Compares current knowledge with the goal, produces the gap analysis, prerequisite order and the module list."
+    },
+    "resource-researcher": {
+      "artifact": "artifacts/03-resources.md",
+      "depends_on": [
+        "knowledge-assessor"
+      ],
+      "role": "planner",
+      "requires": null,
+      "summary": "Researches learning resources per module with web search and verifies every URL through the fetch MCP server."
+    },
+    "practice-designer": {
+      "artifact": "artifacts/04-exercises.md",
+      "depends_on": [
+        "knowledge-assessor"
+      ],
+      "role": "planner",
+      "requires": null,
+      "summary": "Designs hands-on exercises and projects for every module."
+    },
+    "schedule-planner": {
+      "artifact": "artifacts/06-schedule.md",
+      "depends_on": [
+        "resource-researcher",
+        "practice-designer"
+      ],
+      "role": "planner",
+      "requires": null,
+      "summary": "Fits modules, resources, exercises and checkpoints into the weekly time budget and deadline."
+    },
+    "validator": {
+      "artifact": "artifacts/07-validation.md",
+      "depends_on": [
+        "resource-researcher",
+        "practice-designer",
+        "schedule-planner"
+      ],
+      "role": "gate",
+      "requires": null,
+      "summary": "Quality gate: checks every planner artifact against the requirements and emits a machine-readable verdict."
+    },
+    "path-synthesizer": {
+      "artifact": "artifacts/08-learning-path.md",
+      "depends_on": [
+        "validator"
+      ],
+      "role": "synthesis",
+      "requires": "validation_pass",
+      "summary": "Combines all validated artifacts into the final learning path document with a fixed section skeleton."
+    },
+    "html-builder": {
+      "artifact": "output/learning-path.html",
+      "depends_on": [
+        "path-synthesizer"
+      ],
+      "role": "render",
+      "requires": "approval",
+      "summary": "Renders the approved learning path as HTML from the fixed template and copies the Markdown to output/."
+    }
+  },
+  "steps": {
+    "requirements-formalizer": {
+      "status": "written",
+      "attempts": 1,
+      "artifact": "artifacts/01-requirements.md",
+      "hash": "52717992b3a3a3d7600b8f2143509f215ba4ef904fd824ce0568000c834af9b4",
+      "updated_at": "2026-10-02T10:15:50.580Z",
+      "failures": [],
+      "lint_errors": []
+    },
+    "knowledge-assessor": {
+      "status": "written",
+      "attempts": 1,
+      "artifact": "artifacts/02-assessment.md",
+      "hash": "acb1547b8d726c40d2265a480c7cdde3ecf462d43869a5d369ea30299ef16439",
+      "updated_at": "2026-10-02T10:16:37.121Z",
+      "failures": [],
+      "lint_errors": []
+    },
+    "resource-researcher": {
+      "status": "validated",
+      "attempts": 3,
+      "artifact": "artifacts/03-resources.md",
+      "hash": "fafa8318880342172c9ba4bf0cef2fef7de6f737db3cccb7a52a659f324f2b8a",
+      "updated_at": "2026-10-02T10:30:37.657Z",
+      "failures": [
+        {
+          "reason": "interrupted by process restart",
+          "source": "resume"
+        },
+        {
+          "reason": "user requested changes (revision 1): The resources lean too much on podcasts; please add at least one free speaking-practice resource per module (language exchange or shadowing). Also the schedule puts too much in weeks 1-2; spread the first two modules more evenly.",
+          "source": "approval"
+        }
+      ],
+      "lint_errors": []
+    },
+    "practice-designer": {
+      "status": "validated",
+      "attempts": 2,
+      "artifact": "artifacts/04-exercises.md",
+      "hash": "6178ea9fd541e0c7d891ad316e5eee3e51b950af517297d14726ad95a596fd7e",
+      "updated_at": "2026-10-02T10:18:51.842Z",
+      "failures": [
+        {
+          "reason": "interrupted by process restart",
+          "source": "resume"
+        }
+      ],
+      "lint_errors": []
+    },
+    "schedule-planner": {
+      "status": "validated",
+      "attempts": 2,
+      "artifact": "artifacts/06-schedule.md",
+      "hash": "3887ef6eeaab7849c57050fe890670861ac712e17723f13c3d50678c35003f8f",
+      "updated_at": "2026-10-02T10:32:21.785Z",
+      "failures": [
+        {
+          "reason": "user requested changes (revision 1): The resources lean too much on podcasts; please add at least one free speaking-practice resource per module (language exchange or shadowing). Also the schedule puts too much in weeks 1-2; spread the first two modules more evenly.",
+          "source": "approval"
+        }
+      ],
+      "lint_errors": []
+    },
+    "validator": {
+      "status": "validated",
+      "attempts": 2,
+      "artifact": "artifacts/07-validation.md",
+      "hash": "78efc7a25d1fc153ed3e4af8c49df18558cc2fc28c2a17a2133b8d561a0f95bc",
+      "updated_at": "2026-10-02T10:34:31.529Z",
+      "failures": [
+        {
+          "reason": "user requested changes (revision 1): The resources lean too much on podcasts; please add at least one free speaking-practice resource per module (language exchange or shadowing). Also the schedule puts too much in weeks 1-2; spread the first two modules more evenly.",
+          "source": "approval"
+        }
+      ],
+      "lint_errors": []
+    },
+    "path-synthesizer": {
+      "status": "written",
+      "attempts": 2,
+      "artifact": "artifacts/08-learning-path.md",
+      "hash": "95ce9fee8eb88296667980f33ee30a60ede86bde6c2f05e1f4a21cd59ce206b4",
+      "updated_at": "2026-10-02T10:39:08.204Z",
+      "failures": [
+        {
+          "reason": "user requested changes (revision 1): The resources lean too much on podcasts; please add at least one free speaking-practice resource per module (language exchange or shadowing). Also the schedule puts too much in weeks 1-2; spread the first two modules more evenly.",
+          "source": "approval"
+        }
+      ],
+      "lint_errors": []
+    },
+    "html-builder": {
+      "status": "written",
+      "attempts": 1,
+      "artifact": "output/learning-path.html",
+      "hash": "aa1f4d799cacfad496cea8cb7e6f2c988465df32bac4475ff135189afe90ed9a",
+      "updated_at": "2026-10-02T10:43:05.741Z",
+      "failures": [],
+      "lint_errors": []
+    }
+  },
+  "validation": {
+    "rounds_total": 2,
+    "rounds_in_cycle": 1,
+    "max_rounds": 3,
+    "last": {
+      "round": 1,
+      "overall": "PASS",
+      "failures": [],
+      "ts": "2026-10-02T10:34:34.770Z"
+    }
+  },
+  "approval": {
+    "history": [
+      {
+        "ts": "2026-10-02T10:28:38.370Z",
+        "type": "approval",
+        "decision": "rejected",
+        "hash": "8fb0a2ea90a2ed916d3ce4160edeb7d740613deaa02ca29d55fb4e6a4cb46b2e",
+        "artifact": "artifacts/08-learning-path.md",
+        "feedback": "The resources lean too much on podcasts; please add at least one free speaking-practice resource per module (language exchange or shadowing). Also the schedule puts too much in weeks 1-2; spread the first two modules more evenly.",
+        "answer_ts": "2026-10-02T10:28:23.988Z",
+        "answer_source": "command",
+        "scope": [
+          "resource-researcher",
+          "schedule-planner"
+        ]
+      },
+      {
+        "ts": "2026-10-02T10:39:40.722Z",
+        "type": "approval",
+        "decision": "approved",
+        "hash": "95ce9fee8eb88296667980f33ee30a60ede86bde6c2f05e1f4a21cd59ce206b4",
+        "artifact": "artifacts/08-learning-path.md",
+        "feedback": null,
+        "answer_ts": "2026-10-02T10:39:30.317Z",
+        "answer_source": "command",
+        "scope": []
+      }
+    ],
+    "latest": {
+      "ts": "2026-10-02T10:39:40.722Z",
+      "type": "approval",
+      "decision": "approved",
+      "hash": "95ce9fee8eb88296667980f33ee30a60ede86bde6c2f05e1f4a21cd59ce206b4",
+      "artifact": "artifacts/08-learning-path.md",
+      "feedback": null,
+      "answer_ts": "2026-10-02T10:39:30.317Z",
+      "answer_source": "command",
+      "scope": []
+    },
+    "valid": true,
+    "reason": "approved"
+  },
+  "revisions": 1,
+  "gate_denials": [],
+  "mcp_calls": 0,
+  "web_searches": 26,
+  "interrupted": [
+    "resource-researcher",
+    "practice-designer"
+  ],
+  "failed_reason": null,
+  "synth_written_at": "2026-10-02T10:39:02.214Z",
+  "event_count": 136,
+  "runnable": [],
+  "waiting": {}
+}

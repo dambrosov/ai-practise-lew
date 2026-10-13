@@ -1,0 +1,4 @@
+.claude/settings.local.json
+runs/.current
+runs/selftest-*/
+runs/.pending-answers.jsonl

@@ -1,0 +1,25 @@
+[
+  {
+    "ts": "2026-10-02T10:28:38.370Z",
+    "decision": "rejected",
+    "hash": "8fb0a2ea90a2ed916d3ce4160edeb7d740613deaa02ca29d55fb4e6a4cb46b2e",
+    "artifact": "artifacts/08-learning-path.md",
+    "feedback": "The resources lean too much on podcasts; please add at least one free speaking-practice resource per module (language exchange or shadowing). Also the schedule puts too much in weeks 1-2; spread the first two modules more evenly.",
+    "answer_ts": "2026-10-02T10:28:23.988Z",
+    "answer_source": "command",
+    "scope": [
+      "resource-researcher",
+      "schedule-planner"
+    ]
+  },
+  {
+    "ts": "2026-10-02T10:39:40.722Z",
+    "decision": "approved",
+    "hash": "95ce9fee8eb88296667980f33ee30a60ede86bde6c2f05e1f4a21cd59ce206b4",
+    "artifact": "artifacts/08-learning-path.md",
+    "feedback": null,
+    "answer_ts": "2026-10-02T10:39:30.317Z",
+    "answer_source": "command",
+    "scope": []
+  }
+]

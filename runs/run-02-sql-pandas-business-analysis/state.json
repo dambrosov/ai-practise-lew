@@ -1,0 +1,308 @@
+{
+  "run_id": "run-02-sql-pandas-business-analysis",
+  "status": "failed",
+  "title": "SQL and pandas for business questions",
+  "mode": null,
+  "input_hash": "3afc430227aaa3995004ddaa7ac6a458768032dd78e9b3a05a10055a942061c2",
+  "created_at": "2026-10-02T09:48:58.068Z",
+  "updated_at": "2026-10-02T10:13:57.953Z",
+  "selected": [
+    "requirements-formalizer",
+    "knowledge-assessor",
+    "resource-researcher",
+    "practice-designer",
+    "assessment-designer",
+    "schedule-planner",
+    "validator",
+    "path-synthesizer",
+    "html-builder"
+  ],
+  "subgraph": {
+    "requirements-formalizer": {
+      "artifact": "artifacts/01-requirements.md",
+      "depends_on": [],
+      "role": "planner",
+      "requires": null,
+      "summary": "Turns the confirmed user input into a normalized requirements document (goal, baseline, constraints, success criteria)."
+    },
+    "knowledge-assessor": {
+      "artifact": "artifacts/02-assessment.md",
+      "depends_on": [
+        "requirements-formalizer"
+      ],
+      "role": "planner",
+      "requires": null,
+      "summary": "Compares current knowledge with the goal, produces the gap analysis, prerequisite order and the module list."
+    },
+    "resource-researcher": {
+      "artifact": "artifacts/03-resources.md",
+      "depends_on": [
+        "knowledge-assessor"
+      ],
+      "role": "planner",
+      "requires": null,
+      "summary": "Researches learning resources per module with web search and verifies every URL through the fetch MCP server."
+    },
+    "practice-designer": {
+      "artifact": "artifacts/04-exercises.md",
+      "depends_on": [
+        "knowledge-assessor"
+      ],
+      "role": "planner",
+      "requires": null,
+      "summary": "Designs hands-on exercises and projects for every module."
+    },
+    "assessment-designer": {
+      "artifact": "artifacts/05-assessments.md",
+      "depends_on": [
+        "knowledge-assessor"
+      ],
+      "role": "planner",
+      "requires": null,
+      "summary": "Designs checkpoints, quizzes and rubrics per milestone."
+    },
+    "schedule-planner": {
+      "artifact": "artifacts/06-schedule.md",
+      "depends_on": [
+        "resource-researcher",
+        "practice-designer",
+        "assessment-designer"
+      ],
+      "role": "planner",
+      "requires": null,
+      "summary": "Fits modules, resources, exercises and checkpoints into the weekly time budget and deadline."
+    },
+    "validator": {
+      "artifact": "artifacts/07-validation.md",
+      "depends_on": [
+        "resource-researcher",
+        "practice-designer",
+        "assessment-designer",
+        "schedule-planner"
+      ],
+      "role": "gate",
+      "requires": null,
+      "summary": "Quality gate: checks every planner artifact against the requirements and emits a machine-readable verdict."
+    },
+    "path-synthesizer": {
+      "artifact": "artifacts/08-learning-path.md",
+      "depends_on": [
+        "validator"
+      ],
+      "role": "synthesis",
+      "requires": "validation_pass",
+      "summary": "Combines all validated artifacts into the final learning path document with a fixed section skeleton."
+    },
+    "html-builder": {
+      "artifact": "output/learning-path.html",
+      "depends_on": [
+        "path-synthesizer"
+      ],
+      "role": "render",
+      "requires": "approval",
+      "summary": "Renders the approved learning path as HTML from the fixed template and copies the Markdown to output/."
+    }
+  },
+  "steps": {
+    "requirements-formalizer": {
+      "status": "written",
+      "attempts": 1,
+      "artifact": "artifacts/01-requirements.md",
+      "hash": "8f73c949cd506c7238fb959efdcebb424692d6c44112a845a1db28b691d4f897",
+      "updated_at": "2026-10-02T09:49:27.355Z",
+      "failures": [],
+      "lint_errors": []
+    },
+    "knowledge-assessor": {
+      "status": "written",
+      "attempts": 1,
+      "artifact": "artifacts/02-assessment.md",
+      "hash": "0bae33c8fe700d9ea80ad79538d5d3c73c520d9d775da6c15292f7697e17ea76",
+      "updated_at": "2026-10-02T09:50:06.267Z",
+      "failures": [],
+      "lint_errors": []
+    },
+    "resource-researcher": {
+      "status": "needs_rerun",
+      "attempts": 3,
+      "artifact": "artifacts/03-resources.md",
+      "hash": "f551836fbd8c495d43123b10fad1e02ab1cd998669a5c4dd8a90549dae42c3b1",
+      "updated_at": "2026-10-02T10:10:01.002Z",
+      "failures": [
+        {
+          "round": 1,
+          "gate": "requirements",
+          "reason": "The learner asked for a mix of short videos and practice, but no primary or scheduled resource is a video. Add verified short videos (<=20 min each, with title, channel and duration confirmed) as a primary or named companion within module hours for at least M2/M3 (SQL) and M4/M5 (Python/pandas). Also fix the M4 alternative 1lO8TqRV2VY: its fetched title is 'Learn Python in 1 Hour | Full Python Crash Course for Beginners (2025 Edition)', not the Mosh title listed.",
+          "source": "validator"
+        },
+        {
+          "round": 1,
+          "gate": "consistency",
+          "reason": "No single practice dataset or CSV source is named. Add a 'Practice dataset' subsection that names Northwind in PlayCode as the SQL practice database and gives one verified download URL for the matching Northwind CSV files (orders, order_details, customers) for the pandas modules, with the table names and the order-date range.",
+          "source": "validator"
+        },
+        {
+          "round": 2,
+          "gate": "consistency",
+          "reason": "The Practice dataset section misdescribes the SpocWeb files. The fetched orders.csv, order_details.csv and customers.csv are tab-delimited, their header row starts with a '\\P\\' field (GitHub's CSV viewer fails to parse orders.csv), and the orders header is snake_case (order_id, customer_id, order_date, shipped_date, ship_country), not CamelCase. Either test-load the files and state the exact working loading call (e.g. pd.read_csv(url, sep='\\t') plus how to drop or rename the '\\P\\' field) and how to open them in Excel, or replace them with a verified comma-separated Northwind source for orders, order_details and customers. Correct the column-name statement; keep the 830 orders and the 1996-07-04 to 1998-05-06 range.",
+          "source": "validator"
+        },
+        {
+          "round": 3,
+          "gate": "consistency",
+          "reason": "The canonical load_northwind() snippet and the Excel instruction assume 2 metadata rows (T, N) in every file, but orders.csv and order_details.csv have 6 (T, N, K, t, c, #; data from line 8) and customers.csv has 2 (K, #) plus a UTF-8 BOM. With skiprows=[1, 2], the K/t/c/# rows stay in the data, order_date fails to parse, the 830-row sanity print raises an error, and order_details.merge(orders, on='order_id') (used by 04 E5.2, 05 C3 and the final) fails on float vs object keys. Replace the fixed skiprows with a marker filter: read with sep='\\t', quoting=csv.QUOTE_NONE, dtype=str, keep_default_na=False, encoding='utf-8-sig'; keep rows where the first column == 'V'; drop that column; rstrip('\\\\') the column names; re-read through io.StringIO(df.to_csv(index=False)) to restore types and dates. Correct the File layout row, and change the Excel steps to Power Query: filter the first column to 'V', remove it, and fix the last header. Keep the 830-order / 1996-07-04 to 1998-05-06 check and add customers = 91.",
+          "source": "validator"
+        }
+      ],
+      "lint_errors": []
+    },
+    "practice-designer": {
+      "status": "validated",
+      "attempts": 3,
+      "artifact": "artifacts/04-exercises.md",
+      "hash": "e4ef6c6c3559016a6f5ec1fa3db8f4024c75204d94e7fc99f6d340c3e70cd75a",
+      "updated_at": "2026-10-02T10:09:22.141Z",
+      "failures": [
+        {
+          "round": 1,
+          "gate": "consistency",
+          "reason": "E1.1 step 4, E2.1, E5.1 and the capstone refer to a 'sales table' and its 'CSV export', which do not exist in the sample databases in 03 (Northwind/Chinook; PlayCode documents no CSV export). Reference the Northwind tables orders, order_details and customers, define revenue as unit_price*quantity*(1-discount), load the Northwind CSV files, and make date filters relative to the dataset's own range.",
+          "source": "validator"
+        },
+        {
+          "round": 2,
+          "gate": "consistency",
+          "reason": "E1.1 step 4 and Sources offer gordonkjlee/northwind-csv-sample-data, which returns HTTP 404, and leave the repository choice to the learner. Point E1.1 and E5.1 to the dataset and loading instruction in 03's Practice dataset section only (including the delimiter for Excel and read_csv), base the E5.1 rename step on the header issue documented in 03 rather than on CamelCase, and update the Assumptions ('not in 03') and Open Issues ('not fetched'), which are now stale.",
+          "source": "validator"
+        }
+      ],
+      "lint_errors": []
+    },
+    "assessment-designer": {
+      "status": "validated",
+      "attempts": 3,
+      "artifact": "artifacts/05-assessments.md",
+      "hash": "5d424a1958daa30a3ea6f92a19ed9c2d56cbf1731381f633d454ecc9c1aa09c8",
+      "updated_at": "2026-10-02T10:09:31.576Z",
+      "failures": [
+        {
+          "round": 1,
+          "gate": "consistency",
+          "reason": "The checkpoints assume customers(segment, signup_date) and orders(region, amount) with 2025 dates (C1 Q3, C2 practical, C4 practical, the final). Northwind, the sample database in 03, has none of these columns (revenue is in order_details) and its orders date from 1996-1998, so the tasks return empty results. Rewrite all quiz and practical items for Northwind customers/orders/order_details, with revenue = unit_price*quantity*(1-discount), country or ship_region in place of region/segment, and dates within 1996-1998. Keep the times unchanged.",
+          "source": "validator"
+        },
+        {
+          "round": 2,
+          "gate": "consistency",
+          "reason": "The C3 practical and the final load order_lines.csv 'exported from the SQL client', but PlayCode documents only pg_dump export (no CSV), and no exercise or schedule step creates this file. Base the pandas tasks on the Northwind CSV files from 03 (orders, order_details, customers), loaded as 03 states, building order lines with order_details.merge(orders, on='order_id') inside the task or in a defined prep step. Keep the column names and times (C1-C4 15/15/20/15 min, final 30 min) unchanged.",
+          "source": "validator"
+        }
+      ],
+      "lint_errors": []
+    },
+    "schedule-planner": {
+      "status": "needs_rerun",
+      "attempts": 3,
+      "artifact": "artifacts/06-schedule.md",
+      "hash": "53ae970fd12b258330c4b6ebb2fa84a65cda510b5cc24bd8932c3890cbafbf6e",
+      "updated_at": "2026-10-02T10:13:57.934Z",
+      "failures": [
+        {
+          "round": 1,
+          "gate": "requirements",
+          "reason": "Success criterion 4 in 01 requires a checkpoint in each of weeks 1-4, but W3 has none. Schedule a checkpoint activity in W3, for example the C3 quiz items Q1-Q3 and Q6 using about 0.1 h of the W3 buffer, or move M5 tutorial 6 into W3 so all of C3 fits there. Then add the new short-video resources from the revised 03 to the study column, keeping each week <=3.0 h and the total <=12 h.",
+          "source": "validator"
+        },
+        {
+          "reason": "downstream of failed gate for resource-researcher, practice-designer, assessment-designer",
+          "source": "verdict"
+        },
+        {
+          "reason": "downstream of failed gate for resource-researcher",
+          "source": "verdict"
+        }
+      ],
+      "lint_errors": []
+    },
+    "validator": {
+      "status": "needs_rerun",
+      "attempts": 3,
+      "artifact": "artifacts/07-validation.md",
+      "hash": "f9d20aca9c05e25042f56de39c8c2e33f968425546e769d702b08653ea4ace03",
+      "updated_at": "2026-10-02T10:13:55.086Z",
+      "failures": [],
+      "lint_errors": []
+    },
+    "path-synthesizer": {
+      "status": "needs_rerun",
+      "attempts": 0,
+      "artifact": "artifacts/08-learning-path.md",
+      "hash": null,
+      "updated_at": "2026-10-02T10:13:57.934Z",
+      "failures": [
+        {
+          "reason": "downstream of failed gate for resource-researcher, practice-designer, assessment-designer, schedule-planner",
+          "source": "verdict"
+        },
+        {
+          "reason": "downstream of failed gate for resource-researcher, practice-designer, assessment-designer",
+          "source": "verdict"
+        },
+        {
+          "reason": "downstream of failed gate for resource-researcher",
+          "source": "verdict"
+        }
+      ],
+      "lint_errors": []
+    },
+    "html-builder": {
+      "status": "pending",
+      "attempts": 0,
+      "artifact": "output/learning-path.html",
+      "hash": null,
+      "updated_at": null,
+      "failures": [],
+      "lint_errors": []
+    }
+  },
+  "validation": {
+    "rounds_total": 3,
+    "rounds_in_cycle": 3,
+    "max_rounds": 3,
+    "last": {
+      "round": 3,
+      "overall": "FAIL",
+      "failures": [
+        {
+          "agent": "resource-researcher",
+          "artifact": "03-resources.md",
+          "gate": "consistency",
+          "reason": "The canonical load_northwind() snippet and the Excel instruction assume 2 metadata rows (T, N) in every file, but orders.csv and order_details.csv have 6 (T, N, K, t, c, #; data from line 8) and customers.csv has 2 (K, #) plus a UTF-8 BOM. With skiprows=[1, 2], the K/t/c/# rows stay in the data, order_date fails to parse, the 830-row sanity print raises an error, and order_details.merge(orders, on='order_id') (used by 04 E5.2, 05 C3 and the final) fails on float vs object keys. Replace the fixed skiprows with a marker filter: read with sep='\\t', quoting=csv.QUOTE_NONE, dtype=str, keep_default_na=False, encoding='utf-8-sig'; keep rows where the first column == 'V'; drop that column; rstrip('\\\\') the column names; re-read through io.StringIO(df.to_csv(index=False)) to restore types and dates. Correct the File layout row, and change the Excel steps to Power Query: filter the first column to 'V', remove it, and fix the last header. Keep the 830-order / 1996-07-04 to 1998-05-06 check and add customers = 91."
+        }
+      ],
+      "ts": "2026-10-02T10:13:57.932Z"
+    }
+  },
+  "approval": {
+    "history": [],
+    "latest": null,
+    "valid": false,
+    "reason": "no approval record (run state.js approve after the user answered)"
+  },
+  "revisions": 0,
+  "gate_denials": [],
+  "mcp_calls": 0,
+  "web_searches": 33,
+  "interrupted": [],
+  "failed_reason": "quality gate still failing after 3 validation rounds (limit 3); unresolved: resource-researcher",
+  "synth_written_at": null,
+  "event_count": 214,
+  "runnable": [],
+  "waiting": {
+    "resource-researcher": "run failed: quality gate still failing after 3 validation rounds (limit 3); unresolved: resource-researcher",
+    "schedule-planner": "run failed: quality gate still failing after 3 validation rounds (limit 3); unresolved: resource-researcher",
+    "validator": "run failed: quality gate still failing after 3 validation rounds (limit 3); unresolved: resource-researcher",
+    "path-synthesizer": "run failed: quality gate still failing after 3 validation rounds (limit 3); unresolved: resource-researcher",
+    "html-builder": "run failed: quality gate still failing after 3 validation rounds (limit 3); unresolved: resource-researcher"
+  }
+}

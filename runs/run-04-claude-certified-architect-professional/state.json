@@ -1,0 +1,262 @@
+{
+  "run_id": "run-04-claude-certified-architect-professional",
+  "status": "completed",
+  "title": "Claude Certified Architect - Professional in 13 weeks",
+  "mode": "free-only",
+  "input_hash": "6cba67004e9586808bcf1beb9abfb0f2380a834b1c5cf074323f2b31b31abf95",
+  "created_at": "2026-10-02T13:31:44.064Z",
+  "updated_at": "2026-10-02T14:35:00.038Z",
+  "selected": [
+    "requirements-formalizer",
+    "knowledge-assessor",
+    "resource-researcher",
+    "practice-designer",
+    "assessment-designer",
+    "schedule-planner",
+    "validator",
+    "path-synthesizer",
+    "html-builder"
+  ],
+  "subgraph": {
+    "requirements-formalizer": {
+      "artifact": "artifacts/01-requirements.md",
+      "depends_on": [],
+      "role": "planner",
+      "requires": null,
+      "summary": "Turns the confirmed user input into a normalized requirements document (goal, baseline, constraints, success criteria)."
+    },
+    "knowledge-assessor": {
+      "artifact": "artifacts/02-assessment.md",
+      "depends_on": [
+        "requirements-formalizer"
+      ],
+      "role": "planner",
+      "requires": null,
+      "summary": "Compares current knowledge with the goal, produces the gap analysis, prerequisite order and the module list."
+    },
+    "resource-researcher": {
+      "artifact": "artifacts/03-resources.md",
+      "depends_on": [
+        "knowledge-assessor"
+      ],
+      "role": "planner",
+      "requires": null,
+      "summary": "Researches learning resources per module with web search and verifies every URL through the fetch MCP server."
+    },
+    "practice-designer": {
+      "artifact": "artifacts/04-exercises.md",
+      "depends_on": [
+        "knowledge-assessor"
+      ],
+      "role": "planner",
+      "requires": null,
+      "summary": "Designs hands-on exercises and projects for every module."
+    },
+    "assessment-designer": {
+      "artifact": "artifacts/05-assessments.md",
+      "depends_on": [
+        "knowledge-assessor"
+      ],
+      "role": "planner",
+      "requires": null,
+      "summary": "Designs checkpoints, quizzes and rubrics per milestone."
+    },
+    "schedule-planner": {
+      "artifact": "artifacts/06-schedule.md",
+      "depends_on": [
+        "resource-researcher",
+        "practice-designer",
+        "assessment-designer"
+      ],
+      "role": "planner",
+      "requires": null,
+      "summary": "Fits modules, resources, exercises and checkpoints into the weekly time budget and deadline."
+    },
+    "validator": {
+      "artifact": "artifacts/07-validation.md",
+      "depends_on": [
+        "resource-researcher",
+        "practice-designer",
+        "assessment-designer",
+        "schedule-planner"
+      ],
+      "role": "gate",
+      "requires": null,
+      "summary": "Quality gate: checks every planner artifact against the requirements and emits a machine-readable verdict."
+    },
+    "path-synthesizer": {
+      "artifact": "artifacts/08-learning-path.md",
+      "depends_on": [
+        "validator"
+      ],
+      "role": "synthesis",
+      "requires": "validation_pass",
+      "summary": "Combines all validated artifacts into the final learning path document with a fixed section skeleton."
+    },
+    "html-builder": {
+      "artifact": "output/learning-path.html",
+      "depends_on": [
+        "path-synthesizer"
+      ],
+      "role": "render",
+      "requires": "approval",
+      "summary": "Renders the approved learning path as HTML from the fixed template and copies the Markdown to output/."
+    }
+  },
+  "steps": {
+    "requirements-formalizer": {
+      "status": "written",
+      "attempts": 1,
+      "artifact": "artifacts/01-requirements.md",
+      "hash": "282dbfb0c5f00606fb000c40d1251e8dc2d46739679022190396f2c2114d6aa1",
+      "updated_at": "2026-10-02T13:32:19.448Z",
+      "failures": [],
+      "lint_errors": []
+    },
+    "knowledge-assessor": {
+      "status": "written",
+      "attempts": 1,
+      "artifact": "artifacts/02-assessment.md",
+      "hash": "c350aef2ab7501f703eb7703ab5603eb730bf1966af4576327c49746d2f049f0",
+      "updated_at": "2026-10-02T13:33:38.588Z",
+      "failures": [],
+      "lint_errors": []
+    },
+    "resource-researcher": {
+      "status": "validated",
+      "attempts": 1,
+      "artifact": "artifacts/03-resources.md",
+      "hash": "dda302d85cc670691a6485cea156807e42c35d09b690669c1d8e0fcb93ac68f7",
+      "updated_at": "2026-10-02T13:37:25.739Z",
+      "failures": [],
+      "lint_errors": []
+    },
+    "practice-designer": {
+      "status": "validated",
+      "attempts": 1,
+      "artifact": "artifacts/04-exercises.md",
+      "hash": "f8c517565d75531d6907443a8ed3cb112d989c5c5a36860f1c69347f2d60da05",
+      "updated_at": "2026-10-02T13:35:02.389Z",
+      "failures": [],
+      "lint_errors": []
+    },
+    "assessment-designer": {
+      "status": "validated",
+      "attempts": 2,
+      "artifact": "artifacts/05-assessments.md",
+      "hash": "997251b018eb3ea19b8e417471643f90edc6a611e7e30e9263fedf715fbade89",
+      "updated_at": "2026-10-02T13:47:49.932Z",
+      "failures": [
+        {
+          "round": 1,
+          "gate": "requirements",
+          "reason": "Success criterion 4 (01) needs a full-length mock, but no artifact has the mock items: 05 says the practice-designer's bank supplies them and 04 says the assessment-designer writes them. Add a 'Mock exam item bank' with at least 63 new scenario MCQ/MRQ items (stem, options, key, rationale, domain tag), split C1 11, C2 8, C3 12, C4 10, C5 9, C6 9, C7 4, with no reuse of checkpoint quiz items. Define how the week 12 30-item retake subset is formed, and remove the reference to a practice-designer question bank.",
+          "source": "validator"
+        },
+        {
+          "round": 1,
+          "gate": "consistency",
+          "reason": "06 counts the C1-C6 practical tasks (10 h) as the same work as the 04 exercises, but 05 defines them on other scenarios and deliverables (C2/C4 contract-intake ADR and eval, C1 doc-Q&A plan, C3 2 tools + 1 resource vs E3.1 1 tool/1 resource/1 prompt), so about 10 h is unplanned. Make each checkpoint practical task grade the named 04 deliverable with the existing rubric (C1->E1.2, C2->E2.2, C3->E3.1, C4->E4.1/E4.2, C5->E5.1, C6->E6.1/E6.2/E7.1, capstone scenario), or list any truly extra minutes in the Time summary.",
+          "source": "validator"
+        }
+      ],
+      "lint_errors": []
+    },
+    "schedule-planner": {
+      "status": "validated",
+      "attempts": 2,
+      "artifact": "artifacts/06-schedule.md",
+      "hash": "870f00a8b55d8e50e74bfc137120ad9249ec7d726f7b7b5f2a1d14535f1520c2",
+      "updated_at": "2026-10-02T13:49:17.305Z",
+      "failures": [
+        {
+          "reason": "downstream of failed gate for assessment-designer",
+          "source": "verdict"
+        }
+      ],
+      "lint_errors": []
+    },
+    "validator": {
+      "status": "validated",
+      "attempts": 2,
+      "artifact": "artifacts/07-validation.md",
+      "hash": "d143bdc7bfd4f195a77a6f477c3ac8e6b97397325bded6511ba25d7a5bc41703",
+      "updated_at": "2026-10-02T13:51:34.873Z",
+      "failures": [],
+      "lint_errors": []
+    },
+    "path-synthesizer": {
+      "status": "written",
+      "attempts": 1,
+      "artifact": "artifacts/08-learning-path.md",
+      "hash": "12c6b3246a7df2fad3543654a27fd879df8655dc66461facb4ed5315f920271a",
+      "updated_at": "2026-10-02T13:56:16.374Z",
+      "failures": [
+        {
+          "reason": "downstream of failed gate for assessment-designer",
+          "source": "verdict"
+        }
+      ],
+      "lint_errors": []
+    },
+    "html-builder": {
+      "status": "written",
+      "attempts": 1,
+      "artifact": "output/learning-path.html",
+      "hash": "238c9e7b2f7f6a14137c664addf94d9e5abbc8ca47879911e1ce781429f355e7",
+      "updated_at": "2026-10-02T14:35:00.038Z",
+      "failures": [],
+      "lint_errors": []
+    }
+  },
+  "validation": {
+    "rounds_total": 2,
+    "rounds_in_cycle": 2,
+    "max_rounds": 3,
+    "last": {
+      "round": 2,
+      "overall": "PASS",
+      "failures": [],
+      "ts": "2026-10-02T13:51:46.486Z"
+    }
+  },
+  "approval": {
+    "history": [
+      {
+        "ts": "2026-10-02T14:29:07.643Z",
+        "type": "approval",
+        "decision": "approved",
+        "hash": "12c6b3246a7df2fad3543654a27fd879df8655dc66461facb4ed5315f920271a",
+        "artifact": "artifacts/08-learning-path.md",
+        "feedback": null,
+        "answer_ts": "2026-10-02T14:29:02.625Z",
+        "answer_source": "ask_user_question",
+        "scope": []
+      }
+    ],
+    "latest": {
+      "ts": "2026-10-02T14:29:07.643Z",
+      "type": "approval",
+      "decision": "approved",
+      "hash": "12c6b3246a7df2fad3543654a27fd879df8655dc66461facb4ed5315f920271a",
+      "artifact": "artifacts/08-learning-path.md",
+      "feedback": null,
+      "answer_ts": "2026-10-02T14:29:02.625Z",
+      "answer_source": "ask_user_question",
+      "scope": []
+    },
+    "valid": true,
+    "reason": "approved"
+  },
+  "revisions": 0,
+  "gate_denials": [],
+  "mcp_calls": 0,
+  "web_searches": 7,
+  "interrupted": [],
+  "failed_reason": null,
+  "synth_written_at": "2026-10-02T13:56:16.374Z",
+  "event_count": 118,
+  "requirements_answers": 2,
+  "runnable": [],
+  "waiting": {}
+}

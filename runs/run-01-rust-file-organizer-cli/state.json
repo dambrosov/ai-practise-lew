@@ -1,0 +1,270 @@
+{
+  "run_id": "run-01-rust-file-organizer-cli",
+  "status": "completed",
+  "title": "Rust file organizer CLI in 8 weeks",
+  "mode": "free-only",
+  "input_hash": "62b5adf7c0a898742a1c1a00feebf745d813b761fe83d5d83dfc5f7830f24946",
+  "created_at": "2026-10-02T09:27:19.671Z",
+  "updated_at": "2026-10-02T09:47:26.965Z",
+  "selected": [
+    "requirements-formalizer",
+    "knowledge-assessor",
+    "resource-researcher",
+    "practice-designer",
+    "assessment-designer",
+    "schedule-planner",
+    "validator",
+    "path-synthesizer",
+    "html-builder"
+  ],
+  "subgraph": {
+    "requirements-formalizer": {
+      "artifact": "artifacts/01-requirements.md",
+      "depends_on": [],
+      "role": "planner",
+      "requires": null,
+      "summary": "Turns the confirmed user input into a normalized requirements document (goal, baseline, constraints, success criteria)."
+    },
+    "knowledge-assessor": {
+      "artifact": "artifacts/02-assessment.md",
+      "depends_on": [
+        "requirements-formalizer"
+      ],
+      "role": "planner",
+      "requires": null,
+      "summary": "Compares current knowledge with the goal, produces the gap analysis, prerequisite order and the module list."
+    },
+    "resource-researcher": {
+      "artifact": "artifacts/03-resources.md",
+      "depends_on": [
+        "knowledge-assessor"
+      ],
+      "role": "planner",
+      "requires": null,
+      "summary": "Researches learning resources per module with web search and verifies every URL through the fetch MCP server."
+    },
+    "practice-designer": {
+      "artifact": "artifacts/04-exercises.md",
+      "depends_on": [
+        "knowledge-assessor"
+      ],
+      "role": "planner",
+      "requires": null,
+      "summary": "Designs hands-on exercises and projects for every module."
+    },
+    "assessment-designer": {
+      "artifact": "artifacts/05-assessments.md",
+      "depends_on": [
+        "knowledge-assessor"
+      ],
+      "role": "planner",
+      "requires": null,
+      "summary": "Designs checkpoints, quizzes and rubrics per milestone."
+    },
+    "schedule-planner": {
+      "artifact": "artifacts/06-schedule.md",
+      "depends_on": [
+        "resource-researcher",
+        "practice-designer",
+        "assessment-designer"
+      ],
+      "role": "planner",
+      "requires": null,
+      "summary": "Fits modules, resources, exercises and checkpoints into the weekly time budget and deadline."
+    },
+    "validator": {
+      "artifact": "artifacts/07-validation.md",
+      "depends_on": [
+        "resource-researcher",
+        "practice-designer",
+        "assessment-designer",
+        "schedule-planner"
+      ],
+      "role": "gate",
+      "requires": null,
+      "summary": "Quality gate: checks every planner artifact against the requirements and emits a machine-readable verdict."
+    },
+    "path-synthesizer": {
+      "artifact": "artifacts/08-learning-path.md",
+      "depends_on": [
+        "validator"
+      ],
+      "role": "synthesis",
+      "requires": "validation_pass",
+      "summary": "Combines all validated artifacts into the final learning path document with a fixed section skeleton."
+    },
+    "html-builder": {
+      "artifact": "output/learning-path.html",
+      "depends_on": [
+        "path-synthesizer"
+      ],
+      "role": "render",
+      "requires": "approval",
+      "summary": "Renders the approved learning path as HTML from the fixed template and copies the Markdown to output/."
+    }
+  },
+  "steps": {
+    "requirements-formalizer": {
+      "status": "written",
+      "attempts": 1,
+      "artifact": "artifacts/01-requirements.md",
+      "hash": "59f9fadd27e96ad3e7866630cda092b62351673b3817f91fa5411c548eace7fb",
+      "updated_at": "2026-10-02T09:27:46.877Z",
+      "failures": [],
+      "lint_errors": []
+    },
+    "knowledge-assessor": {
+      "status": "written",
+      "attempts": 1,
+      "artifact": "artifacts/02-assessment.md",
+      "hash": "f8a005a427522dce440ee77e1bfaca26b3e382b959aa14dedae945357e1652b1",
+      "updated_at": "2026-10-02T09:28:33.416Z",
+      "failures": [],
+      "lint_errors": []
+    },
+    "resource-researcher": {
+      "status": "validated",
+      "attempts": 2,
+      "artifact": "artifacts/03-resources.md",
+      "hash": "de595ba4db27c13d93f6577631d71dee2a90be934e9714ad6606bb8995b7e003",
+      "updated_at": "2026-10-02T09:35:39.902Z",
+      "failures": [
+        {
+          "round": 1,
+          "gate": "coverage",
+          "reason": "Prioritized gap C8 (filesystem and paths, M5) has no primary: the M5 primary (CLI book cli-args) covers only argument parsing. Promote a free filesystem resource (e.g. std::fs docs and Rust Cookbook Directory Traversal, both verified) to primary for M5 with hours, update the Hours summary, and correct the Summary's '33 h' primary total to match the table.",
+          "source": "validator"
+        }
+      ],
+      "lint_errors": []
+    },
+    "practice-designer": {
+      "status": "validated",
+      "attempts": 2,
+      "artifact": "artifacts/04-exercises.md",
+      "hash": "ccae99ae21a9f1f71505150abf0061b72ca6803bda321398ff2396213396de79",
+      "updated_at": "2026-10-02T09:35:39.585Z",
+      "failures": [
+        {
+          "round": 1,
+          "gate": "requirements",
+          "reason": "Success criterion 6 needs >= 60 % hands-on, but exercises+capstone total only 14 h, sized by an invented '15 % of 48 h' target. Raise hands-on work to about 23-25 h (e.g. timed Rustlings sections per module M1-M4, ch. 12 type-along deliverable, larger E4.1/E5.x/E6.1 or capstone) and keep the existing ids stable.",
+          "source": "validator"
+        }
+      ],
+      "lint_errors": []
+    },
+    "assessment-designer": {
+      "status": "validated",
+      "attempts": 1,
+      "artifact": "artifacts/05-assessments.md",
+      "hash": "88c6e08832f1371e01d97b141d214c72226017adf440e0b71de35b4878616b93",
+      "updated_at": "2026-10-02T09:30:03.218Z",
+      "failures": [],
+      "lint_errors": []
+    },
+    "schedule-planner": {
+      "status": "validated",
+      "attempts": 2,
+      "artifact": "artifacts/06-schedule.md",
+      "hash": "51e2173bef1b36121c4840d2607d01382aee2e919537b4b1ec433f264fbb9093",
+      "updated_at": "2026-10-02T09:37:19.851Z",
+      "failures": [
+        {
+          "round": 1,
+          "gate": "requirements",
+          "reason": "Hands-on share is 42 % (18.5 of 43.9 h) against the >= 60 % in criterion 6, and the Budget check contradicts itself ('above 60 %' ... '42 %'). Rebalance with the revised 04 so hands-on is >= 60 % of planned hours (reading about <= 16-17 h, by skimming Book ch. 3/5/8 and ch. 10), keep each week <= 6.0 h and the total <= 48 h, and report a single consistent percentage.",
+          "source": "validator"
+        },
+        {
+          "round": 1,
+          "gate": "requirements",
+          "reason": "Weeks 3-4 have no checkpoint (C1 w2, C2 w5), which violates criterion 3 (>= 1 checkpoint per 2 weeks). Move C2 to the end of week 4 after M4 finishes, shift about 1.0 h of CP2 into week 5 to stay <= 6.0 h, and start M5 only after C2 passes.",
+          "source": "validator"
+        }
+      ],
+      "lint_errors": []
+    },
+    "validator": {
+      "status": "validated",
+      "attempts": 2,
+      "artifact": "artifacts/07-validation.md",
+      "hash": "bf78831ae45d2c80a1edae7dd97393d11a6b6ee07f6a6b6953a2903f898f886e",
+      "updated_at": "2026-10-02T09:39:21.047Z",
+      "failures": [],
+      "lint_errors": []
+    },
+    "path-synthesizer": {
+      "status": "written",
+      "attempts": 1,
+      "artifact": "artifacts/08-learning-path.md",
+      "hash": "4ec66a88d3c3b9d95b6e17930a414e01d08969569b4838a0ec9e2e3d42c82ff1",
+      "updated_at": "2026-10-02T09:42:11.682Z",
+      "failures": [
+        {
+          "reason": "downstream of failed gate for resource-researcher, practice-designer, schedule-planner",
+          "source": "verdict"
+        }
+      ],
+      "lint_errors": []
+    },
+    "html-builder": {
+      "status": "written",
+      "attempts": 1,
+      "artifact": "output/learning-path.html",
+      "hash": "95b9a6370b10c63ceb5f73b6428d847a5f0b8d342f2d4cd7589706effaeabb77",
+      "updated_at": "2026-10-02T09:47:26.965Z",
+      "failures": [],
+      "lint_errors": []
+    }
+  },
+  "validation": {
+    "rounds_total": 2,
+    "rounds_in_cycle": 2,
+    "max_rounds": 3,
+    "last": {
+      "round": 2,
+      "overall": "PASS",
+      "failures": [],
+      "ts": "2026-10-02T09:39:24.809Z"
+    }
+  },
+  "approval": {
+    "history": [
+      {
+        "ts": "2026-10-02T09:43:55.133Z",
+        "type": "approval",
+        "decision": "approved",
+        "hash": "4ec66a88d3c3b9d95b6e17930a414e01d08969569b4838a0ec9e2e3d42c82ff1",
+        "artifact": "artifacts/08-learning-path.md",
+        "feedback": null,
+        "answer_ts": "2026-10-02T09:43:42.603Z",
+        "answer_source": "command",
+        "scope": []
+      }
+    ],
+    "latest": {
+      "ts": "2026-10-02T09:43:55.133Z",
+      "type": "approval",
+      "decision": "approved",
+      "hash": "4ec66a88d3c3b9d95b6e17930a414e01d08969569b4838a0ec9e2e3d42c82ff1",
+      "artifact": "artifacts/08-learning-path.md",
+      "feedback": null,
+      "answer_ts": "2026-10-02T09:43:42.603Z",
+      "answer_source": "command",
+      "scope": []
+    },
+    "valid": true,
+    "reason": "approved"
+  },
+  "revisions": 0,
+  "gate_denials": [],
+  "mcp_calls": 0,
+  "web_searches": 5,
+  "interrupted": [],
+  "failed_reason": null,
+  "synth_written_at": "2026-10-02T09:42:06.829Z",
+  "event_count": 108,
+  "runnable": [],
+  "waiting": {}
+}

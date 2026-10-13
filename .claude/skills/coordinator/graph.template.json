@@ -1,0 +1,74 @@
+{
+  "$comment": "Single source of truth for the workflow graph. state.js init copies the selected subgraph into runs/<id>/events.jsonl (plan event); hooks and state.js read dependencies from there, never from prose.",
+  "max_validation_rounds": 3,
+  "max_agent_attempts": 4,
+  "agents": {
+    "requirements-formalizer": {
+      "artifact": "artifacts/01-requirements.md",
+      "depends_on": [],
+      "always": true,
+      "role": "planner",
+      "summary": "Turns the confirmed user input into a normalized requirements document (goal, baseline, constraints, success criteria)."
+    },
+    "knowledge-assessor": {
+      "artifact": "artifacts/02-assessment.md",
+      "depends_on": ["requirements-formalizer"],
+      "always": true,
+      "role": "planner",
+      "summary": "Compares current knowledge with the goal, produces the gap analysis, prerequisite order and the module list."
+    },
+    "resource-researcher": {
+      "artifact": "artifacts/03-resources.md",
+      "depends_on": ["knowledge-assessor"],
+      "always": true,
+      "role": "planner",
+      "modes": { "free-only": "Only free resources are allowed." },
+      "summary": "Researches learning resources per module with web search and verifies every URL through the fetch MCP server."
+    },
+    "practice-designer": {
+      "artifact": "artifacts/04-exercises.md",
+      "depends_on": ["knowledge-assessor"],
+      "always": true,
+      "role": "planner",
+      "summary": "Designs hands-on exercises and projects for every module."
+    },
+    "assessment-designer": {
+      "artifact": "artifacts/05-assessments.md",
+      "depends_on": ["knowledge-assessor"],
+      "always": false,
+      "select_when": "The learner wants checkpoints, quizzes, self-assessments or targets a certification.",
+      "role": "planner",
+      "summary": "Designs checkpoints, quizzes and rubrics per milestone."
+    },
+    "schedule-planner": {
+      "artifact": "artifacts/06-schedule.md",
+      "depends_on": ["resource-researcher", "practice-designer", "assessment-designer"],
+      "always": true,
+      "role": "planner",
+      "summary": "Fits modules, resources, exercises and checkpoints into the weekly time budget and deadline."
+    },
+    "validator": {
+      "artifact": "artifacts/07-validation.md",
+      "depends_on": ["resource-researcher", "practice-designer", "assessment-designer", "schedule-planner"],
+      "always": true,
+      "role": "gate",
+      "summary": "Quality gate: checks every planner artifact against the requirements and emits a machine-readable verdict."
+    },
+    "path-synthesizer": {
+      "artifact": "artifacts/08-learning-path.md",
+      "depends_on": ["validator"],
+      "requires": "validation_pass",
+      "always": true,
+      "role": "synthesis",
+      "summary": "Combines all validated artifacts into the final learning path document with a fixed section skeleton."
+    },
+    "html-builder": {
+      "artifact": "output/learning-path.html",
+      "depends_on": ["path-synthesizer"],
+      "requires": "approval",
+      "always": true,
+      "role": "render",
+      "summary": "Renders the approved learning path as HTML from the fixed template and copies the Markdown to output/."
+    }
+  }
+}

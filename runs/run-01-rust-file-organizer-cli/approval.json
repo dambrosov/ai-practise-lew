@@ -1,0 +1,12 @@
+[
+  {
+    "ts": "2026-10-02T09:43:55.133Z",
+    "decision": "approved",
+    "hash": "4ec66a88d3c3b9d95b6e17930a414e01d08969569b4838a0ec9e2e3d42c82ff1",
+    "artifact": "artifacts/08-learning-path.md",
+    "feedback": null,
+    "answer_ts": "2026-10-02T09:43:42.603Z",
+    "answer_source": "command",
+    "scope": []
+  }
+]

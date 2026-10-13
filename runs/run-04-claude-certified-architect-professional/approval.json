@@ -1,0 +1,12 @@
+[
+  {
+    "ts": "2026-10-02T14:29:07.643Z",
+    "decision": "approved",
+    "hash": "12c6b3246a7df2fad3543654a27fd879df8655dc66461facb4ed5315f920271a",
+    "artifact": "artifacts/08-learning-path.md",
+    "feedback": null,
+    "answer_ts": "2026-10-02T14:29:02.625Z",
+    "answer_source": "ask_user_question",
+    "scope": []
+  }
+]
